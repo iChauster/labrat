@@ -53,9 +53,12 @@ app.get('/main', function(req, res) {
 });
 
 app.get('/', function(req, res){
-  res.render("signup.ejs");
+  res.render("login.ejs");
 });
 
+app.get('/signup', function(req,res){
+    res.render("signup.ejs")
+});
 
 
 app.post('/checklogin', function(req, res){
