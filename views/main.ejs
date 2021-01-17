@@ -5,7 +5,7 @@
 	<link rel = "stylesheet" type="text/css" href = "../styles/main.css">
 
 	<meta charset="utf-8">
-	<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:200,300,400,600,700,900">
+	<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:200,300,400,500,600,700,900">
 	<script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
 </head>
@@ -15,7 +15,7 @@
             <div class = "locations-modal">
                 <div class = "user-info-container">
                     <div class = "user-info">
-                        <img src = "../public/images/user.svg" class = "user-img">
+                        <img src = "../images/user.svg" class = "user-img">
     
                         <div class = "user-text-container-vertical-center">
                             <div class = "user-text-container">
@@ -25,15 +25,23 @@
                         </div>
                         
                     </div>
-                    <a href="#" class = "settings-button"><img src = "../public/images/settings.svg" class = "settings-img"></a>
+                    <a href="#" class = "settings-button"><img src = "../images/settings.svg" class = "settings-img"></a>
                 </div>
 
                 <div class = "card-container">
-                	<ul style="list-style: none;">
+                	<ul style="list-style: none; margin: 0; padding: 0;">
                 		<% for(i = 0; i < studies.length; i++){%>
                 	    	<li>
                 	    		<div class = "card">
-                	    			<p><%= JSON.stringify(studies[i].title); %></p>
+                                    <div class = "card-contents-container">
+                                        <h1 class = "card-title"><%= studies[i].conditionsabbrev; %> <%= studies[i].interventionabbrev; %></h1>
+                                        <h2 class = "card-subtitle"><%= studies[i].location; %></h2>
+
+                                        <div class = "card-sub-info-container">
+                                            <h3 class = "card-info-eta"><%= studies[i].time; %></h3>
+                                            <h3 class = "card-info-study-acrn">Title Acronym: <%= studies[i].acronym; %></h3>
+                                        </div>
+                                    </div>
                     			</div>
                 	    	</li>
                 		<% }; %> 
