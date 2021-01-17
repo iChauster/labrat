@@ -46,7 +46,7 @@ var partJson = {
       }
     },
     "line_linked": {
-      "enable": true,
+      "enable": false,
       "distance": 300,
       "color": "#1b6ca8",
       "opacity": 0.4,
@@ -58,8 +58,8 @@ var partJson = {
       "direction": "none",
       "random": true,
       "straight": false,
-      "out_mode": "bounce",
-      "bounce": false,
+      "out_mode": "out",
+      "bounce": true,
       "attract": {
         "enable": false,
         "rotateX": 600,

@@ -25,15 +25,16 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 app.get('/main', function(req, res) {
-    var select = req.query.select || "title";
-    var gender = req.query.gender || 'in.(Male)';
-    var acronym = req.query.acronym || '';
-    var conditions = req.query.conditions || [];
-    // var status = req.query.status || ;
-    // var age = req.query.age || ;
+    const select = "title,acronym,status,conditionsabbrev,interventionabbrev,phases,location,distance,time,url,inclusioncrit,exclusioncrit,age,contactname,contactphone,contactaddress,contactemail";
+    const gender = req.query.gender || 'in.(Male,All)';
+    const age = req.query.age || 'phfts.{Adult}';
+    const conditions = req.query.conditions || 'neq.null';
+    const phases = req.query.phases || 'neq.null';
     console.log(select, gender);
+    const url = 'https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/lbr2?select=' + select + '&gender=' + gender + '&age=' + age + '&conditionsabbrev=' + conditions + '&phases=' + phases + '&order=distance.nullsfirst' + '&limit=300';
+    console.log("URL: " + url);
     request({
-        url: 'https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/labrat?select=' + select + '&gender=' + gender + '&acronym&interventions&location&distance',
+        url: url,
         headers: {
             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhYmFzZUlkIjoiZ3VGZFBnQU5FMldFaHFoVnc0a0NlUCIsImFjY2Vzc1Blcm0iOiJmdWxsIiwidG9rZW5JZCI6IkhGWElmWGIwRmhDNUpETVhsbVNUeDNMb0lxN3RlZGM3VUN2Z3A0NVd1clZRbUpmdFhGWm5YN1JsNDNFZTVWNDEiLCJpYXQiOjE2MTA4NTIyODIsImV4cCI6MTYxMTAyNTA4MiwiaXNzIjoiZHJvcGJhc2UuaW8iLCJzdWIiOiJCQkJkRmZ4b3hpeEtBM1d2RFhaYTVlIn0.osNKNhoSDyYieDCRFZwg7vExKY6vfvHNuvO-62UejWY'
         },
@@ -42,9 +43,10 @@ app.get('/main', function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            console.log("Response " + response);
+            console.log("Response " + response.statusCode);
             console.log(JSON.parse(body));
-            res.render("main.ejs");
+            const clinics = JSON.parse(body);
+            res.render("main.ejs", {studies: clinics});
         }
     });
   
@@ -54,8 +56,10 @@ app.get('/', function(req, res){
   res.render("signup.ejs");
 });
 
+
+
 app.post('/checklogin', function(req, res){
-  res.redirect('/main?select=title&gender=in.(Male)');
+  res.redirect('/main');
 });
 
 
