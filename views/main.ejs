@@ -25,7 +25,7 @@
                         </div>
                         
                     </div>
-                    <a href="#" class = "settings-button"><img src = "../images/settings.svg" class = "settings-img"></a>
+                    <a href="#" class = "settings-button"><img src = "../images/filter.svg" class = "settings-img"></a>
                 </div>
 
                 <div class = "card-container">
@@ -40,6 +40,10 @@
                                         <div class = "card-sub-info-container">
                                             <h3 class = "card-info-eta"><%= studies[i].time; %></h3>
                                             <h3 class = "card-info-study-acrn">Title Acronym: <%= studies[i].acronym; %></h3>
+                                        </div>
+
+                                        <div class = "status" style = "background-color : <%- (studies[i].status == 'Not yet recruiting') ? '#FBD300' : '#62EDBB' %>;">
+                                            <p class = "status-text"><%= studies[i].status; %></p>
                                         </div>
                                     </div>
 
@@ -81,9 +85,12 @@
 	            		'type': 'Feature',
 	            		'properties': {
 		            		'description':
-		            		'<p> Title: '+e.title+'</p><br>'+
-		            		'<p> Enrolled Particpants: '+e.enrollment+'</p><br>'+
-		            		'<p> Contact Information: '+e.contactemail+'</p><br>',
+                            '<p class = "pop-up-title"> Title: '+e.title+'</p><br>'+
+                            '<p class = "pop-up-phase"> Phase: '+e.phases+'</p><br>'+
+		            		'<p class = "pop-up-enroll"> Enrolled Particpants: '+e.enrollment+'</p><br>'+
+                            '<p class = "pop-up-contact"> Contact Information: '+e.contactemail+'</p><br>' +
+                            '<p class = "pop-up-criteria"> Inclusion Criteria: '+e.inclusioncrit+'</p><br>' +
+                            '<p class = "pop-up-criteria"> Exclusion Criteria: '+e.exclusioncrit+'</p><br>',
 		            		'icon': 'viewpoint'
 	            		},
 	            		'geometry': {
@@ -144,14 +151,14 @@
 	            	});
             	});
 
-            	setTimeout(function(){ 
+            	/*setTimeout(function(){ 
             		if (map.getLayer('places')) {
             		  map.removeLayer('places');
             		}
             		if (map.getSource('places')) {
             		  map.removeSource('places');
             		} 
-            	}, 5000);
+            	}, 5000);*/
 
 
             	
