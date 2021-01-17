@@ -332,3 +332,7 @@ body {
   margin-left:10%;
   z-index: 2;
 }
+
+.mapbox-popup-content {
+    border-radius:10px;
+}
