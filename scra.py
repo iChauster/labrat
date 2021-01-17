@@ -2,8 +2,18 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-def scrape(url):
-	soup = BeautifulSoup(requests.get(url).text, 'html.parser')
+def getContacts(soup):
+	name = soup.find('td', {"headers": "contactName"})
+	name = name.text if name else None
+	contactPhone = soup.find('td', {"headers":"contactPhone"}).text
+	contactPhone = contactPhone.text if contactPhone else None
+	contactEmail = soup.find('td', {"headers":"contactEmail"}).text
+	contactEmail = contactEmail.text if contactEmail else None
+	contactAddress = soup.find('td', {"headers":"contactAddress"}).text
+	contactAddress = contactAddress.text if contactAddress else None
+	return (name, contactPhone, contactEmail, contactAddress)
+
+def getCriteria(soup):
 	tab_body = soup.findAll(text='Eligibility Criteria')
 	found = None
 	for i in tab_body:
@@ -22,27 +32,39 @@ def scrape(url):
 	elif lTitle < lDsc:
 		print("Uncaught Issue")
 	return list(zip(titles, titleDsc))
-	
+
+def scrape(url):
+	soup = BeautifulSoup(requests.get(url).text, 'html.parser')
+	gc = getCriteria(soup)
+	contact = getContacts(soup)
+	return gc, contact
+
 def updateCSV(csv):
 	df = pd.read_csv(csv)
 	failures = []
 	for i, row in df.iterrows():
-		try:
-			scrapedCriteria = scrape(row['URL'])
-			inclusionCrit, exclusionCrit = "", ""
-			for key, value in scrapedCriteria:
-				if "inclusion criteria" in key.lower():
-					inclusionCrit += value
-				elif "exclusion criteria" in key.lower():
-					exclusionCrit += value
-				else:
-					print(key.lower())
-			df.at[i, "InclusionCrit"] = inclusionCrit
-			df.at[i, "ExclusionCrit"] = exclusionCrit
-		except:
-			failures.append(row["URL"])
-			print(f'failure for {row["URL"]}')
-	df.to_csv('demo.csv')
+			try:
+				scrapedCriteria, contactInfo = scrape(row['URL'])
+				name, contactPhone, contactEmail, contactAddress = contactInfo
+				inclusionCrit, exclusionCrit = "", ""
+				for key, value in scrapedCriteria:
+					if "inclusion" in key.lower():
+						inclusionCrit += value
+					elif "exclusion" in key.lower():
+						exclusionCrit += value
+					else:
+						print(key.lower())
+				df.at[i, "InclusionCrit"] = inclusionCrit
+				df.at[i, "ExclusionCrit"] = exclusionCrit
+				df.at[i, "contactName"] = name if name else ""
+				df.at[i, "contactPhone"] = contactPhone if contactPhone else ""
+				df.at[i, "contactEmail"] = contactEmail if contactEmail else ""
+				df.at[i, "contactAddress"] = contactAddress if contactAddress else ""
+			except Exception as e:
+				print(e)
+				failures.append(row["URL"])
+				print(f'failure for {row["URL"]}')
+	df.to_csv('other.csv')
 	print(failures)
 	
-# updateCSV("./combinedStudies.csv")
+updateCSV("./demo.csv")
