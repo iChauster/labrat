@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Dashboard | Clinic Connect</title>
-	<link rel = "stylesheet" type="text/css" href = "../public/styles/main.css">
+	<link rel = "stylesheet" type="text/css" href = "../styles/main.css">
 
 	<meta charset="utf-8">
 	<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:200,300,400,600,700,900">
@@ -29,33 +29,15 @@
                 </div>
 
                 <div class = "card-container">
-                    <div class = "card">
-
-                    </div>
-
-                    <div class = "card">
-                        
-                    </div>
-
-                    <div class = "card">
-                        
-                    </div>
-
-                    <div class = "card">
-                        
-                    </div>
-
-                    <div class = "card">
-                        
-                    </div>
-
-                    <div class = "card">
-                        
-                    </div>
-
-                    <div class = "card">
-                        
-                    </div>
+                	<ul style="list-style: none;">
+                		<% for(i = 0; i < studies.length; i++){%>
+                	    	<li>
+                	    		<div class = "card">
+                	    			<p><%= JSON.stringify(studies[i].title); %></p>
+                    			</div>
+                	    	</li>
+                		<% }; %> 
+                	</ul>
 
                     <div class = "card-container-faded-edges"></div>
 
