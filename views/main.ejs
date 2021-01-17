@@ -55,6 +55,14 @@
             </div>
         </div>
         <div class = "map-container">
+            <div class="wrap">
+               <div class="search">
+                  <input type="text" class="searchTerm" placeholder="Search for trials..." onchange="update()" id="searchbar">
+                  <button type="submit" class="searchButton">
+                    <i class="fa fa-search"></i>
+                 </button>
+               </div>
+            </div>
             <div id='map'></div>
             <script>
             	mapboxgl.accessToken = 'pk.eyJ1IjoibGFicmF0cyIsImEiOiJja2swZGtnZmYwNHd3Mm9wYngxZ3M3ZDFuIn0.1UDPtpkpWoNfw-d4NKMzhw';
@@ -119,6 +127,7 @@
                         'source': 'places',
                         'layout': {
                         'icon-image': '{icon}-15',
+                        'icon-size': 1.5,
                         'icon-allow-overlap': true
                         }}
                     );
@@ -211,8 +220,10 @@
                 
 
             }
-            
-            setTimeout(() => {search("Covid")}, 1000);
+
+            function update(){
+                search(document.getElementById("searchbar").value)
+            }
 
             	/*setTimeout(function(){ 
             		if (map.getLayer('places')) {
