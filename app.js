@@ -31,7 +31,7 @@ app.get('/main', function(req, res) {
     const conditions = req.query.conditions || 'neq.null';
     const phases = req.query.phases || 'neq.null';
     console.log(select, gender);
-    const url = 'https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/lbr2?select=' + select + '&gender=' + gender + '&age=' + age + '&conditionsabbrev=' + conditions + '&phases=' + phases + '&order=distance.nullsfirst' + '&limit=300';
+    const url = 'https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/cc?select=' + select + '&gender=' + gender + '&age=' + age + '&conditionsabbrev=' + conditions + '&phases=' + phases + '&order=distance.nullsfirst' + '&limit=300';
     console.log("URL: " + url);
     request({
         url: url,
@@ -60,9 +60,17 @@ app.get('/signup', function(req,res){
     res.render("signup.ejs")
 });
 
-
 app.post('/checklogin', function(req, res){
   res.redirect('/main');
+});
+
+app.get('/search', function(req, res){
+    const select = "title,acronym,status,conditionsabbrev,interventionabbrev,phases,location,distance,time,url,inclusioncrit,exclusioncrit,age,contactname,contactphone,contactaddress,contactemail";
+    const search = req.query.query;
+    const age = req.query.age || 'phfts.{Adult}';
+    const conditions = req.query.conditions || 'neq.null';
+    const phases = req.query.phases || 'neq.null';
+    const searchURL = 'https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/cc?'
 });
 
 
