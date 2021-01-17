@@ -1,29 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Dashboard | Clinic Connect</title>
+	<link rel = "stylesheet" href = "../styles/main.css">
+
+	<meta charset="utf-8">
+	<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:200,300,400,600,700,900">
 	<script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
+	<div class = "background">
+        <div class = "locations-container">
+            <div class = "locations-modal">
+                <div class = "user-info-container">
+                    <div class = "user-info">
+                        <div class = "user-img-container">
+    
+                        </div>
+    
+                        <div class = "user-text-container">
+                            <h1 class = "user-name">Adarsh Rao</h1>
+                            <h2 class = "user-location">Philedelphia, PA, USA</h2>
+                        </div>
+                    </div>
+                    <a href="#" class = "settings-button">S</a>
+                </div>
 
-	<div id='map' style='width: 700px; height: 700px;'></div>
-	<script>
-		mapboxgl.accessToken = 'pk.eyJ1IjoibGFicmF0cyIsImEiOiJja2swZGtnZmYwNHd3Mm9wYngxZ3M3ZDFuIn0.1UDPtpkpWoNfw-d4NKMzhw';
-		var map = new mapboxgl.Map({
-		container: 'map',
-		style: 'mapbox://styles/mapbox/streets-v11',
-		center: [-75.2088799, 39.951172], // starting position [lng, lat]
-		zoom: 12 // starting zoom
-		});
+                <div class = "card-container">
+                    <div class = "card">
 
-		var changePosition = function(lat, lng) {
-			map.flyTo({
-				center: [lng, lat],
-			 	essential: true // this animation is considered essential with respect to prefers-reduced-motion
-			});
-		};
-		</script>
+                    </div>
+
+                    <div class = "card">
+                        
+                    </div>
+
+                    <div class = "card">
+                        
+                    </div>
+
+                    <div class = "card">
+                        
+                    </div>
+
+                    <div class = "card">
+                        
+                    </div>
+
+                    <div class = "card">
+                        
+                    </div>
+
+                    <div class = "card">
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class = "map-container">
+            <div id='map' style='width: 700px; height: 700px;'></div>
+            <script>
+            	mapboxgl.accessToken = 'pk.eyJ1IjoibGFicmF0cyIsImEiOiJja2swZGtnZmYwNHd3Mm9wYngxZ3M3ZDFuIn0.1UDPtpkpWoNfw-d4NKMzhw';
+            	var map = new mapboxgl.Map({
+            	container: 'map',
+            	style: 'mapbox://styles/mapbox/streets-v11',
+            	center: [-75.2088799, 39.951172], // starting position [lng, lat]
+            	zoom: 12 // starting zoom
+            	});
+
+            	var changePosition = function(lat, lng) {
+            		map.flyTo({
+            			center: [lng, lat],
+            		 	essential: true // this animation is considered essential with respect to prefers-reduced-motion
+            		});
+            	};
+            </script>
+        </div>
+    </div>
+	
 
 </body>
 </html>
