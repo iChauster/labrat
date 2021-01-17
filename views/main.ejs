@@ -29,17 +29,15 @@
                 </div>
 
                 <div class = "card-container">
-                	<ul style="list-style: none;">
+                	<ul style="list-style: none;" id="listContainer">
                 		<% for(i = 0; i < studies.length; i++){%>
-                	    	<li>
+                	    	<li> 
                 	    		<div class = "card" onclick="changePosition(<%= parseFloat(studies[i].longitude); %>, <%= parseFloat(studies[i].latitude); %>)">
                 	    			<p><%= studies[i].title; %></p>
                     			</div>
                 	    	</li>
                 		<% }; %> 
                 	</ul>
-
-                    <div class = "card-container-faded-edges"></div>
 
                 </div>
             </div>
@@ -49,10 +47,10 @@
             <script>
             	mapboxgl.accessToken = 'pk.eyJ1IjoibGFicmF0cyIsImEiOiJja2swZGtnZmYwNHd3Mm9wYngxZ3M3ZDFuIn0.1UDPtpkpWoNfw-d4NKMzhw';
             	var map = new mapboxgl.Map({
-            	container: 'map',
-            	style: 'mapbox://styles/kl001/ckk0l8h561met18m8y57g4cuz',
-            	center: [-75.2088799, 39.951172], // starting position [lng, lat]
-            	zoom: 12 // starting zoom
+                	container: 'map',
+                	style: 'mapbox://styles/kl001/ckk0l8h561met18m8y57g4cuz',
+                	center: [-75.2088799, 39.951172], // starting position [lng, lat]
+                	zoom: 12 // starting zoom
             	});
 
             	var changePosition = function(lng, lat) {
@@ -62,52 +60,58 @@
             		});
             	};
 
-            	var data = <%- JSON.stringify(studies); %>;
-            	console.log(data);
+                function loadMap(data) {
 
-            	var features = [];
+                	var features = [];
+                	data.forEach((e) => {
 
-            	data.forEach((e) => {
-
-            		features.push({
-	            		'type': 'Feature',
-	            		'properties': {
-		            		'description':
-		            		'<p> Title: '+e.title+'</p><br>'+
-		            		'<p> Enrolled Particpants: '+e.enrollment+'</p><br>'+
-		            		'<p> Contact Information: '+e.contactemail+'</p><br>',
-		            		'icon': 'viewpoint'
-	            		},
-	            		'geometry': {
-		            		'type': 'Point',
-		            		'coordinates': [parseFloat(e.longitude), parseFloat(e.latitude)]
-	            		}
-            		});
-            	});
+                		features.push({
+    	            		'type': 'Feature',
+    	            		'properties': {
+    		            		'description':
+    		            		'<p> Title: '+e.title+'</p><br>'+
+    		            		'<p> Enrolled Particpants: '+e.enrollment+'</p><br>'+
+    		            		'<p> Contact Information: '+e.contactemail+'</p><br>',
+    		            		'icon': 'viewpoint'
+    	            		},
+    	            		'geometry': {
+    		            		'type': 'Point',
+    		            		'coordinates': [parseFloat(e.longitude), parseFloat(e.latitude)]
+    	            		}
+                		});
+                	});
+                    return features
+                    
+                }   
 
             	map.on('load', function () {
-	            	map.addSource('places', {
-	            		'type': 'geojson',
-						'data': {
-							'type': 'FeatureCollection',
-							'features': features
-	            		}
-	            	});
+	            	
+                    var data = <%- JSON.stringify(studies); %>;
+                    const features = loadMap(data);
 
+                    map.addSource('places', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': features
+                        }
+                    });
+                    map.addLayer(
+                        {
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places',
+                        'layout': {
+                        'icon-image': '{icon}-15',
+                        'icon-allow-overlap': true
+                        }}
+                    );
 	            	// Add a layer showing the places.
-	            	map.addLayer(
-	            		{
-		            	'id': 'places',
-		            	'type': 'symbol',
-		            	'source': 'places',
-		            	'layout': {
-		            	'icon-image': '{icon}-15',
-		            	'icon-allow-overlap': true
-		            	}
-	            	});
+	            	
             	 
-            	// When a click event occurs on a feature in the places layer, open a popup at the
-            	// location of the feature, with description HTML from its properties.
+                	// When a click event occurs on a feature in the places layer, open a popup at the
+                	// location of the feature, with description HTML from its properties.
+                
             	map.on('click', 'places', function (e) {
 	            	var coordinates = e.features[0].geometry.coordinates.slice();
 	            	var description = e.features[0].properties.description;
@@ -123,7 +127,6 @@
 		            	.setLngLat(coordinates)
 		            	.setHTML(description)
 		            	.addTo(map);
-	            	});
 	            	 
 	            	// Change the cursor to a pointer when the mouse is over the places layer.
 	            	map.on('mouseenter', 'places', function () {
@@ -135,20 +138,57 @@
 	            		map.getCanvas().style.cursor = '';
 	            	});
             	});
+            });
 
-            	setTimeout(function(){ 
-            		if (map.getLayer('places')) {
-            		  map.removeLayer('places');
-            		}
-            		if (map.getSource('places')) {
-            		  map.removeSource('places');
-            		} 
-            	}, 5000);
+            function reloadMap(data) {
+                console.log(data)
+                map.getSource('places').setData({
+                    'type': 'FeatureCollection',
+                    'features': data
+                });
+            }
 
+            async function searchCall(terms) {
+                const response = await fetch(`/search?query=${terms}`, {
+                    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                  });
+                  return response.json(); // parses JSON response into native JavaScript objects
+            }
 
-            	
+            function search(terms) {
+                searchCall(terms).then((json) => {
+                    const features = loadMap(json)
+                    reloadMap(features)
+                    replaceCells(json)
+                });
+            }
+
+            function replaceCells(json) {
+                var element = document.getElementById("listContainer");
+                element.innerHTML = ""
+                json.forEach((j) => {
+                    element.innerHTML += `<li> 
+                                <div class = "card" onclick="changePosition(${parseFloat(j.longitude)}, ${parseFloat(j.latitude)})">
+                                    <p>${j.title}</p>
+                                </div>
+                            </li>`
+                })
+                
+
+            }
+            
+            setTimeout(() => {search("Covid")}, 1000);
 
             </script>
+            }
         </div>
     </div>
 	
