@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.get('/main', function(req, res){
     // var info = dropbase.get(req.session.username);
-  res.render("main.ejs", {info: info});
+  res.render("main.ejs");
 });
 
 app.get('/', function(req, res){
