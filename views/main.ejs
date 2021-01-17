@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+
+	<div id='map' style='width: 700px; height: 700px;'></div>
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoibGFicmF0cyIsImEiOiJja2swZGtnZmYwNHd3Mm9wYngxZ3M3ZDFuIn0.1UDPtpkpWoNfw-d4NKMzhw';
+		var map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/mapbox/streets-v11',
+		center: [-75.2088799, 39.951172], // starting position [lng, lat]
+		zoom: 12 // starting zoom
+		});
+
+		var changePosition = function(lat, lng) {
+			map.flyTo({
+				center: [lng, lat],
+			 	essential: true // this animation is considered essential with respect to prefers-reduced-motion
+			});
+		};
+		</script>
+
+</body>
+</html>
