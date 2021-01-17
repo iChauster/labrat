@@ -70,7 +70,7 @@ app.get('/search', function(req, res){
     const age = req.query.age || 'phfts.{Adult}';
     const conditions = req.query.conditions || 'neq.null';
     const phases = req.query.phases || 'neq.null';
-    const searchURL = `https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/cc?select=${select}&age=${age}&conditionsabbrev=${conditions}&phases=${phases}&or=(title.phfts.${search},sponsors.phfts.${search})&order=distance.nullsfirst&limit=300`
+    const searchURL = `https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/cc?select=${select}&age=${age}&conditionsabbrev=${conditions}&phases=${phases}&or=(title.phfts.${search},sponsors.phfts.${search},location.phfts.${search})&order=distance.nullsfirst&limit=300`
     request({
         url: searchURL,
         headers: {
