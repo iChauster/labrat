@@ -1,42 +1,68 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-	<script type="text/javascript" src="../scripts/particles.js"></script>
-	<script type="text/javascript" src = "../scripts/particleBackground.js"></script>
-
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClinicConnect</title>
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+  <style type="text/css">
+    body {
+      background-color: #560675;
+    }
+    .card {
+      border-radius: 15px;
+    }
+  </style>
 <body>
-	<div id="particles-js">
-		<div class="container" style="position: absolute; top: 50%; left: 50%; margin-left: -600px; margin-top: -300px;">
-			<div id="loginbox" style="margin-top:50px; max-width:600px;" class="mx-auto card">
-				<div class="card-body">
-				  <h1 class="d-flex justify-content-center">Welcome!</h1>
-				  <form action="/checklogin" method="post">
-				  	<div class="form-group">
-					  	<label for="username">Username:</label>
-					    <input type="text" class="form-control" name="username">
-				    </div>
-				    <div class="form-group">
-					    <label for="password">Password:</label>
-					    <input type="password"  class="form-control" name="password">
-				    </div>
-				    <div class="form-group d-flex justify-content-center" >
-					    <input id="submit" type="submit"  class="btn btn-primary" value="Login">
-					  </div>
-				  </form>
-				  <div class="form-group">
-				  	<a class="btn btn-primary d-flex justify-content-center" href="/signup" role="button">Create a new account</a>
-				  </div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div id="loginbox" style="margin-top:50px; max-width:600px;" class="mx-auto card">
+      <div class="card-body">
+        <h1 class="d-flex justify-content-center">Create an Account</h1>
 
+        <form id="form" action="/createaccount" method="post">
+          <div class="form-row" style="margin-top:48px">
+            <div class="form-group col-md-6">
+              <label for="username">Email:</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Username" title="Only lowercase alphanumeric characters" required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password" title="Passwords must be at least 6 characters long and contain only alphanumeric characters and/or ~!@#$%^&_" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="fullName">Full Name:</label>
+              <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="birthday">Birthday:</label>
+              <input type="date" class="form-control" id="birthday" name="birthday" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="gender">Gender:</label>
+              <input type="text" class="form-control" id="gender" name="gender" placeholder="Gender" required>
+            </div>
+          </div>
+        <div class="form-group" style="margin-top:48px;width:100%;">
+          <a style="background-color:#fff; color:#560675;border:2px solid #560675; border-radius: 10px;" class="btn btn-primary d-flex justify-content-center" href="/main" role="button">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
