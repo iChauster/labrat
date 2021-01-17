@@ -5,11 +5,11 @@ import pandas as pd
 def getContacts(soup):
 	name = soup.find('td', {"headers": "contactName"})
 	name = name.text if name else None
-	contactPhone = soup.find('td', {"headers":"contactPhone"}).text
+	contactPhone = soup.find('td', {"headers":"contactPhone"})
 	contactPhone = contactPhone.text if contactPhone else None
-	contactEmail = soup.find('td', {"headers":"contactEmail"}).text
+	contactEmail = soup.find('td', {"headers":"contactEmail"})
 	contactEmail = contactEmail.text if contactEmail else None
-	contactAddress = soup.find('td', {"headers":"contactAddress"}).text
+	contactAddress = soup.find('td', {"headers":"contactAddress"})
 	contactAddress = contactAddress.text if contactAddress else None
 	return (name, contactPhone, contactEmail, contactAddress)
 
@@ -64,7 +64,7 @@ def updateCSV(csv):
 				print(e)
 				failures.append(row["URL"])
 				print(f'failure for {row["URL"]}')
-	df.to_csv('other.csv')
+	df.to_csv('final.csv')
 	print(failures)
 	
-updateCSV("./demo.csv")
+updateCSV("./locationAppended.csv")
