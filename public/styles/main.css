@@ -291,3 +291,44 @@ body {
     margin-right: 5%;
     margin-left: 5%;
 }
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+  height:50px;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 0px solid #00B4CC;
+  border-right: none;
+  padding: 8px 8px 8px 16px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #000;
+}
+
+.searchTerm:focus{
+  color: #000;
+}
+
+.searchButton {
+  width: 60px;
+  border: 0px;
+  background: #00B4CC;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 40%;
+  position: absolute;
+  top: 20px;
+  height:50px;
+  margin-left:10%;
+  z-index: 2;
+}
