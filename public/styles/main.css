@@ -291,6 +291,28 @@ body {
     margin-right: 5%;
     margin-left: 5%;
 }
+
+.pop-up-label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.email-link {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    margin: 0;
+    padding: 0;
+
+    margin-right: 5%;
+    margin-left: 5%;
+
+    color: #3729af;
+}
+
 .search {
   width: 100%;
   position: relative;
