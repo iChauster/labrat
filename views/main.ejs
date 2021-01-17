@@ -91,11 +91,11 @@
                             'properties': {
                                 'description':
                                 '<p class = "pop-up-title"> Title: '+e.title+'</p><br>'+
-                                '<p class = "pop-up-phase"> Phase: '+e.phases+'</p><br>'+
-                                '<p class = "pop-up-enroll"> Enrolled Particpants: '+e.enrollment+'</p><br>'+
-                                '<p class = "pop-up-contact"> Contact Information: '+e.contactemail+'</p><br>' +
-                                '<p class = "pop-up-criteria"> Inclusion Criteria: '+e.inclusioncrit+'</p><br>' +
-                                '<p class = "pop-up-criteria"> Exclusion Criteria: '+e.exclusioncrit+'</p><br>',
+                                '<p class = "pop-up-phase"> <span class = "pop-up-label">Phase:</span> '+e.phases+'</p><br>'+
+                                '<p class = "pop-up-enroll"> <span class = "pop-up-label">Enrolled Particpants:</span> '+e.enrollment+'</p><br>'+
+                                '<p class = "pop-up-contact"> <span class = "pop-up-label">Contact Information:</span> </p><a href = ' + '"mailto:' + e.contactemail + '?subject=Interest%20in%20' + e.nct_number + '&body=Dear%20' + e.contactname.substring(9) + '%2C%0D%0A%0D%0AMy%20name%20is%20Adarsh%20Rao.%20I%20am%20interested%20in%20the%20aforementioned%20trial%20and%20would%20like%20to%20receive%20information%20on%20enrollment.%0D%0A%0D%0AThank%20you%2C%0D%0AAdarsh%20Rao" class = "email-link">' +e.contactemail+'</a><br><br>' +
+                                '<p class = "pop-up-criteria"> <span class = "pop-up-label">Inclusion Criteria:</span> '+e.inclusioncrit+'</p><br>' +
+                                '<p class = "pop-up-criteria"> <span class = "pop-up-label">Exclusion Criteria:</span> '+e.exclusioncrit+'</p><br>',
                                 'icon': 'viewpoint'
                             },
                             'geometry': {
@@ -127,6 +127,7 @@
                         'source': 'places',
                         'layout': {
                         'icon-image': '{icon}-15',
+                        'icon-size': 1.5,
                         'icon-allow-overlap': true
                         }}
                     );
