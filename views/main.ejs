@@ -96,7 +96,7 @@
                                 'description':
                                 '<p class = "pop-up-title"> Title: '+e.title+'</p><br>'+
                                 '<p class = "pop-up-phase"> <span class = "pop-up-label">Phase:</span> '+e.phases+'</p><br>'+
-                                '<p class = "pop-up-enroll"> <span class = "pop-up-label">Enrolled Particpants:</span> '+e.enrollment+'</p><br>'+
+                                '<p class = "pop-up-enroll"> <span class = "pop-up-label">Enrolled Particpants:</span> '+ e.enrollment+'</p><br>'+
                                 '<p class = "pop-up-contact"> <span class = "pop-up-label">Contact Information:</span> </p><a href = ' + '"mailto:' + e.contactemail + '?subject=Interest%20in%20' + e.nct_number + '&body=Dear%20' + e.contactname.substring(9) + '%2C%0D%0A%0D%0AMy%20name%20is%20Adarsh%20Rao.%20I%20am%20interested%20in%20the%20aforementioned%20trial%20and%20would%20like%20to%20receive%20information%20on%20enrollment.%0D%0A%0D%0AThank%20you%2C%0D%0AAdarsh%20Rao" class = "email-link">' +e.contactemail+'</a><br><br>' +
                                 '<p class = "pop-up-criteria"> <span class = "pop-up-label">Inclusion Criteria:</span> '+e.inclusioncrit+'</p><br>' +
                                 '<p class = "pop-up-criteria"> <span class = "pop-up-label">Exclusion Criteria:</span> '+e.exclusioncrit+'</p><br>',
@@ -233,7 +233,7 @@
             }
             async function addFilter() {
                 var selectedConditions = []
-                let arr = ["Coronavirus", "Hypertension", "Glaucoma"]
+                let arr = ["COVID", "Hypertension", "Glaucoma"]
                 arr.forEach((ids) => {
                     if ($(`#${ids}`).is(":checked")) {
                         selectedConditions.push(ids)
@@ -268,7 +268,7 @@
                     }
                 })
 
-                const response = await fetch(`/filterSearch?conditions=in.(${selectedConditions.join(',')})&phases=phfts.(${selectedPhases.join(',')}&interventionabbrev=phfts.(${selectedInt.join(',')}))`, {
+                const response = await fetch(`/filterSearch?conditions=in.(${selectedConditions.join(',')})&phases=phfts.(${selectedPhases.join(',')})&interventionabbrev=phfts.(${selectedInt.join(',')}))`, {
                     method: 'GET', // *GET, POST, PUT, DELETE, etc.
                     mode: 'cors', // no-cors, *cors, same-origin
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -315,8 +315,8 @@
                 <label class="btn btn-outline-danger" for="Glaucoma">Glaucoma</label>
                 <input type="checkbox" class="btn-check" id="Hypertension" autocomplete="off">
                 <label class="btn btn-outline-secondary" for="Hypertension">Hypertension</label>
-                <input type="checkbox" class="btn-check" id="Coronavirus" autocomplete="off">
-                <label class="btn btn-outline-warning" for="Coronavirus">Coronavirus</label>
+                <input type="checkbox" class="btn-check" id="COVID" autocomplete="off">
+                <label class="btn btn-outline-warning" for="COVID">Coronavirus</label>
                 <h4 class="dub">Phase:</h4>
                 <input type="checkbox" class="btn-check" id="phase1" autocomplete="off">
                 <label class="btn btn-outline-primary" for="phase1">Phase 1</label>
