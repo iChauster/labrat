@@ -45,7 +45,6 @@ body {
 }
 
 .user-info-container {
-    background-color: red;
 
     height: 8%;
     width: 77%;
@@ -59,35 +58,26 @@ body {
     position: relative;
 }
 
-.card-container {
-
-    height:68%;
-    width: 100%;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    overflow-y: scroll;
-}
-
-.card {
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
-
-    width: 77%;
-    height: 20%;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    margin-bottom: 5%;
-    margin-top: 2%;
-}
-
 .user-info {
     position: absolute;
-    background-color: aqua;
+
+    height: 100%;
+
+    display: flex;
+}
+
+.user-img {
+    height: 100%;
+}
+
+.user-text-container-vertical-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    margin-left: 10px;
+
+    height: 100%;
 }
 
 .user-info-text-container {
@@ -117,4 +107,41 @@ body {
 .settings-button {
     position: absolute;
     right: 0;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.settings-img {
+    width: 30px;
+}
+
+
+.card-container {
+
+    height:68%;
+    width: 100%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    overflow-y: scroll;
+}
+
+.card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+
+    width: 77%;
+    height: 20%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-bottom: 5%;
+    margin-top: 2%;
 }
