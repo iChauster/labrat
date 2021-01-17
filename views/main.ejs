@@ -29,9 +29,9 @@
                 </div>
 
                 <div class = "card-container">
-                	<ul style="list-style: none; margin: 0; padding: 0;">
+                	<ul style="list-style: none; margin: 0; padding: 0;" id="listContainer">
                 		<% for(i = 0; i < studies.length; i++){%>
-                	    	<li>
+                	    	<li> 
                 	    		<div class = "card" onclick="changePosition(<%= parseFloat(studies[i].longitude); %>, <%= parseFloat(studies[i].latitude); %>)">
                                     <div class = "card-contents-container">
                                         <h1 class = "card-title"><%= studies[i].conditionsabbrev; %> <%= studies[i].interventionabbrev; %></h1>
@@ -51,8 +51,6 @@
                 		<% }; %> 
                 	</ul>
 
-                    <div class = "card-container-faded-edges"></div>
-
                 </div>
             </div>
         </div>
@@ -61,10 +59,10 @@
             <script>
             	mapboxgl.accessToken = 'pk.eyJ1IjoibGFicmF0cyIsImEiOiJja2swZGtnZmYwNHd3Mm9wYngxZ3M3ZDFuIn0.1UDPtpkpWoNfw-d4NKMzhw';
             	var map = new mapboxgl.Map({
-            	container: 'map',
-            	style: 'mapbox://styles/kl001/ckk0l8h561met18m8y57g4cuz',
-            	center: [-75.2088799, 39.951172], // starting position [lng, lat]
-            	zoom: 12 // starting zoom
+                	container: 'map',
+                	style: 'mapbox://styles/kl001/ckk0l8h561met18m8y57g4cuz',
+                	center: [-75.2088799, 39.951172], // starting position [lng, lat]
+                	zoom: 12 // starting zoom
             	});
 
             	var changePosition = function(lng, lat) {
@@ -74,55 +72,62 @@
             		});
             	};
 
-            	var data = <%- JSON.stringify(studies); %>;
-            	console.log(data);
+                function loadMap(data) {
 
-            	var features = [];
+                	var features = [];
 
-            	data.forEach((e) => {
+                    data.forEach((e) => {
 
-            		features.push({
-	            		'type': 'Feature',
-	            		'properties': {
-		            		'description':
-                            '<p class = "pop-up-title"> Title: '+e.title+'</p><br>'+
-                            '<p class = "pop-up-phase"> <span class = "pop-up-label">Phase:</span> '+e.phases+'</p><br>'+
-		            		'<p class = "pop-up-enroll"> <span class = "pop-up-label">Enrolled Particpants:</span> '+e.enrollment+'</p><br>'+
-                            '<p class = "pop-up-contact"> <span class = "pop-up-label">Contact Information:</span> </p><a href = ' + '"mailto:' + e.contactemail + '?subject=Interest%20in%20' + e.nct_number + '&body=Dear%20' + e.contactname.substring(9) + '%2C%0D%0A%0D%0AMy%20name%20is%20Adarsh%20Rao.%20I%20am%20interested%20in%20the%20aforementioned%20trial%20and%20would%20like%20to%20receive%20information%20on%20enrollment.%0D%0A%0D%0AThank%20you%2C%0D%0AAdarsh%20Rao" class = "email-link">' +e.contactemail+'</a><br><br>' +
-                            '<p class = "pop-up-criteria"> <span class = "pop-up-label">Inclusion Criteria:</span> '+e.inclusioncrit+'</p><br>' +
-                            '<p class = "pop-up-criteria"> <span class = "pop-up-label">Exclusion Criteria:</span> '+e.exclusioncrit+'</p><br>',
-		            		'icon': 'viewpoint'
-	            		},
-	            		'geometry': {
-		            		'type': 'Point',
-		            		'coordinates': [parseFloat(e.longitude), parseFloat(e.latitude)]
-	            		}
-            		});
-            	});
+                        features.push({
+                            'type': 'Feature',
+                            'properties': {
+                                'description':
+                                '<p class = "pop-up-title"> Title: '+e.title+'</p><br>'+
+                                '<p class = "pop-up-phase"> <span class = "pop-up-label">Phase:</span> '+e.phases+'</p><br>'+
+                                '<p class = "pop-up-enroll"> <span class = "pop-up-label">Enrolled Particpants:</span> '+e.enrollment+'</p><br>'+
+                                '<p class = "pop-up-contact"> <span class = "pop-up-label">Contact Information:</span> </p><a href = ' + '"mailto:' + e.contactemail + '?subject=Interest%20in%20' + e.nct_number + '&body=Dear%20' + e.contactname.substring(9) + '%2C%0D%0A%0D%0AMy%20name%20is%20Adarsh%20Rao.%20I%20am%20interested%20in%20the%20aforementioned%20trial%20and%20would%20like%20to%20receive%20information%20on%20enrollment.%0D%0A%0D%0AThank%20you%2C%0D%0AAdarsh%20Rao" class = "email-link">' +e.contactemail+'</a><br><br>' +
+                                '<p class = "pop-up-criteria"> <span class = "pop-up-label">Inclusion Criteria:</span> '+e.inclusioncrit+'</p><br>' +
+                                '<p class = "pop-up-criteria"> <span class = "pop-up-label">Exclusion Criteria:</span> '+e.exclusioncrit+'</p><br>',
+                                'icon': 'viewpoint'
+                            },
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [parseFloat(e.longitude), parseFloat(e.latitude)]
+                            }
+                        });
+                    });
+                    return features
+                    
+                }   
 
             	map.on('load', function () {
-	            	map.addSource('places', {
-	            		'type': 'geojson',
-						'data': {
-							'type': 'FeatureCollection',
-							'features': features
-	            		}
-	            	});
+	            	
+                    var data = <%- JSON.stringify(studies); %>;
+                    const features = loadMap(data);
 
+                    map.addSource('places', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': features
+                        }
+                    });
+                    map.addLayer(
+                        {
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places',
+                        'layout': {
+                        'icon-image': '{icon}-15',
+                        'icon-allow-overlap': true
+                        }}
+                    );
 	            	// Add a layer showing the places.
-	            	map.addLayer(
-	            		{
-		            	'id': 'places',
-		            	'type': 'symbol',
-		            	'source': 'places',
-		            	'layout': {
-		            	'icon-image': '{icon}-15',
-		            	'icon-allow-overlap': true
-		            	}
-	            	});
+	            	
             	 
-            	// When a click event occurs on a feature in the places layer, open a popup at the
-            	// location of the feature, with description HTML from its properties.
+                	// When a click event occurs on a feature in the places layer, open a popup at the
+                	// location of the feature, with description HTML from its properties.
+                
             	map.on('click', 'places', function (e) {
 	            	var coordinates = e.features[0].geometry.coordinates.slice();
 	            	var description = e.features[0].properties.description;
@@ -138,7 +143,6 @@
 		            	.setLngLat(coordinates)
 		            	.setHTML(description)
 		            	.addTo(map);
-	            	});
 	            	 
 	            	// Change the cursor to a pointer when the mouse is over the places layer.
 	            	map.on('mouseenter', 'places', function () {
@@ -150,6 +154,65 @@
 	            		map.getCanvas().style.cursor = '';
 	            	});
             	});
+            });
+
+            function reloadMap(data) {
+                console.log(data)
+                map.getSource('places').setData({
+                    'type': 'FeatureCollection',
+                    'features': data
+                });
+            }
+
+            async function searchCall(terms) {
+                const response = await fetch(`/search?query=${terms}`, {
+                    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                  });
+                  return response.json(); // parses JSON response into native JavaScript objects
+            }
+
+            function search(terms) {
+                searchCall(terms).then((json) => {
+                    const features = loadMap(json)
+                    reloadMap(features)
+                    replaceCells(json)
+                });
+            }
+
+            function replaceCells(json) {
+                var element = document.getElementById("listContainer");
+                element.innerHTML = ""
+                json.forEach((j) => {
+                    element.innerHTML += `<li> 
+                                <div class = "card" onclick="changePosition(${parseFloat(j.longitude)}, ${parseFloat(j.latitude)})">
+                                    <div class = "card-contents-container">
+                                        <h1 class = "card-title">${j.conditionsabbrev} ${j.interventionabbrev}</h1>
+                                        <h2 class = "card-subtitle">${j.location}</h2>
+
+                                        <div class = "card-sub-info-container">
+                                            <h3 class = "card-info-eta">${j.time}</h3>
+                                            <h3 class = "card-info-study-acrn">Title Acronym: ${j.acronym}</h3>
+                                        </div>
+
+                                        <div class = "status" style = "background-color : ${(j.status == 'Not yet recruiting') ? '#FBD300' : '#62EDBB'}">
+                                            <p class = "status-text">${j.status}</p>
+                                        </div>
+                                    </div>
+                            </li>`
+                })
+                
+
+            }
+            
+            setTimeout(() => {search("Covid")}, 1000);
 
             	/*setTimeout(function(){ 
             		if (map.getLayer('places')) {
@@ -159,11 +222,8 @@
             		  map.removeSource('places');
             		} 
             	}, 5000);*/
-
-
-            	
-
             </script>
+            
         </div>
     </div>
 	
