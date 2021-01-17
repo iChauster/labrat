@@ -5,7 +5,7 @@
 	<link rel = "stylesheet" type="text/css" href = "../styles/main.css">
 
 	<meta charset="utf-8">
-	<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:200,300,400,600,700,900">
+	<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:200,300,400,500,600,700,900">
 	<script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
 </head>
@@ -25,16 +25,28 @@
                         </div>
                         
                     </div>
-                    <a href="#" class = "settings-button"><img src = "../images/settings.svg" class = "settings-img"></a>
+                    <a href="#" class = "settings-button"><img src = "../images/filter.svg" class = "settings-img"></a>
                 </div>
 
                 <div class = "card-container">
-                	<ul style="list-style: none;" id="listContainer">
+                	<ul style="list-style: none; margin: 0; padding: 0;" id="listContainer">
                 		<% for(i = 0; i < studies.length; i++){%>
                 	    	<li> 
                 	    		<div class = "card" onclick="changePosition(<%= parseFloat(studies[i].longitude); %>, <%= parseFloat(studies[i].latitude); %>)">
-                	    			<p><%= studies[i].title; %></p>
-                    			</div>
+                                    <div class = "card-contents-container">
+                                        <h1 class = "card-title"><%= studies[i].conditionsabbrev; %> <%= studies[i].interventionabbrev; %></h1>
+                                        <h2 class = "card-subtitle"><%= studies[i].location; %></h2>
+
+                                        <div class = "card-sub-info-container">
+                                            <h3 class = "card-info-eta"><%= studies[i].time; %></h3>
+                                            <h3 class = "card-info-study-acrn">Title Acronym: <%= studies[i].acronym; %></h3>
+                                        </div>
+
+                                        <div class = "status" style = "background-color : <%- (studies[i].status == 'Not yet recruiting') ? '#FBD300' : '#62EDBB' %>;">
+                                            <p class = "status-text"><%= studies[i].status; %></p>
+                                        </div>
+                                    </div>
+
                 	    	</li>
                 		<% }; %> 
                 	</ul>
@@ -63,23 +75,27 @@
                 function loadMap(data) {
 
                 	var features = [];
-                	data.forEach((e) => {
 
-                		features.push({
-    	            		'type': 'Feature',
-    	            		'properties': {
-    		            		'description':
-    		            		'<p> Title: '+e.title+'</p><br>'+
-    		            		'<p> Enrolled Particpants: '+e.enrollment+'</p><br>'+
-    		            		'<p> Contact Information: '+e.contactemail+'</p><br>',
-    		            		'icon': 'viewpoint'
-    	            		},
-    	            		'geometry': {
-    		            		'type': 'Point',
-    		            		'coordinates': [parseFloat(e.longitude), parseFloat(e.latitude)]
-    	            		}
-                		});
-                	});
+                    data.forEach((e) => {
+
+                        features.push({
+                            'type': 'Feature',
+                            'properties': {
+                                'description':
+                                '<p class = "pop-up-title"> Title: '+e.title+'</p><br>'+
+                                '<p class = "pop-up-phase"> Phase: '+e.phases+'</p><br>'+
+                                '<p class = "pop-up-enroll"> Enrolled Particpants: '+e.enrollment+'</p><br>'+
+                                '<p class = "pop-up-contact"> Contact Information: '+e.contactemail+'</p><br>' +
+                                '<p class = "pop-up-criteria"> Inclusion Criteria: '+e.inclusioncrit+'</p><br>' +
+                                '<p class = "pop-up-criteria"> Exclusion Criteria: '+e.exclusioncrit+'</p><br>',
+                                'icon': 'viewpoint'
+                            },
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [parseFloat(e.longitude), parseFloat(e.latitude)]
+                            }
+                        });
+                    });
                     return features
                     
                 }   
@@ -177,8 +193,19 @@
                 json.forEach((j) => {
                     element.innerHTML += `<li> 
                                 <div class = "card" onclick="changePosition(${parseFloat(j.longitude)}, ${parseFloat(j.latitude)})">
-                                    <p>${j.title}</p>
-                                </div>
+                                    <div class = "card-contents-container">
+                                        <h1 class = "card-title">${j.conditionsabbrev} ${j.interventionabbrev}</h1>
+                                        <h2 class = "card-subtitle">${j.location}</h2>
+
+                                        <div class = "card-sub-info-container">
+                                            <h3 class = "card-info-eta">${j.time}</h3>
+                                            <h3 class = "card-info-study-acrn">Title Acronym: ${j.acronym}</h3>
+                                        </div>
+
+                                        <div class = "status" style = "background-color : ${(j.status == 'Not yet recruiting') ? '#FBD300' : '#62EDBB'}">
+                                            <p class = "status-text">${j.status}</p>
+                                        </div>
+                                    </div>
                             </li>`
                 })
                 
@@ -187,8 +214,16 @@
             
             setTimeout(() => {search("Covid")}, 1000);
 
+            	/*setTimeout(function(){ 
+            		if (map.getLayer('places')) {
+            		  map.removeLayer('places');
+            		}
+            		if (map.getSource('places')) {
+            		  map.removeSource('places');
+            		} 
+            	}, 5000);*/
             </script>
-            }
+            
         </div>
     </div>
 	
