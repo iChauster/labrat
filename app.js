@@ -87,5 +87,28 @@ app.get('/search', function(req, res){
 });
 
 
+app.get('/filterSearch', function(req, res){
+    const select = "nct_number,title,acronym,status,conditionsabbrev,interventionabbrev,phases,location,distance,time,url,inclusioncrit,exclusioncrit,age,contactname,contactphone,contactaddress,contactemail,sponsors,longitude,latitude";
+    const search = encodeURIComponent(req.query.query);
+    const age = req.query.age || 'phfts.{Adult}';
+    const conditions = req.query.conditions || 'neq.null';
+    const phases = req.query.phases || 'neq.null';
+    const iab = req.query.iab || 'neq.null'
+    const searchURL = `https://query.dropbase.io/guFdPgANE2WEhqhVw4kCeP/cc?select=${select}&age=${age}&conditionsabbrev=${conditions}&phases=${phases}&interventionabbrev=${iab}&order=distance.nullsfirst&limit=300`
+    console.log(searchURL)
+    request({
+        url: searchURL,
+        headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhYmFzZUlkIjoiZ3VGZFBnQU5FMldFaHFoVnc0a0NlUCIsImFjY2Vzc1Blcm0iOiJmdWxsIiwidG9rZW5JZCI6IkhGWElmWGIwRmhDNUpETVhsbVNUeDNMb0lxN3RlZGM3VUN2Z3A0NVd1clZRbUpmdFhGWm5YN1JsNDNFZTVWNDEiLCJpYXQiOjE2MTA4NTIyODIsImV4cCI6MTYxMTAyNTA4MiwiaXNzIjoiZHJvcGJhc2UuaW8iLCJzdWIiOiJCQkJkRmZ4b3hpeEtBM1d2RFhaYTVlIn0.osNKNhoSDyYieDCRFZwg7vExKY6vfvHNuvO-62UejWY'
+        },
+        rejectUnauthorized: false
+    }, function (err, response, body) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(JSON.parse(body)) 
+        }
+    });
+});
 //app.listen(port, () => console.log(`Server listening on port ${port}`));
 app.listen(port);

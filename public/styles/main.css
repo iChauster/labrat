@@ -332,7 +332,10 @@ body {
   margin-left:10%;
   z-index: 2;
 }
-
+.dub{
+    padding-bottom:8px;
+    padding-top:8px;
+}
 .mapbox-popup-content {
-    border-radius:10px;
+    border-radius:10px !important;
 }
