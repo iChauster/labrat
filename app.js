@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 app.get('/main', function(req, res) {
-    const select = "title,acronym,status,conditionsabbrev,interventionabbrev,phases,location,distance,time,url,inclusioncrit,exclusioncrit,age,contactname,contactphone,contactaddress,contactemail";
+    const select = "title,acronym,status,conditionsabbrev,interventionabbrev,phases,location,distance,time,url,inclusioncrit,exclusioncrit,age,contactname,contactphone,contactaddress,contactemail,enrollment,longitude,latitude";
     const gender = req.query.gender || 'in.(Male,All)';
     const age = req.query.age || 'phfts.{Adult}';
     const conditions = req.query.conditions || 'neq.null';
